@@ -2,9 +2,6 @@ package org.example.model;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-
-import java.util.concurrent.atomic.AtomicLong;
-
 public class Post {
     private long id;
     private String content;
