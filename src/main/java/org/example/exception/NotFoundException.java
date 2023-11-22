@@ -1,5 +1,7 @@
 package org.example.exception;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class NotFoundException extends RuntimeException {
     public NotFoundException() {
     }
