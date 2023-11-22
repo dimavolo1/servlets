@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class PostController {
     public static final String APPLICATION_JSON = "application/json";
@@ -30,7 +29,7 @@ public class PostController {
         writeResponce(data, response);
     }
 
-    public void save(Reader body, HttpServletResponse response) throws IOException, ExecutionException, InterruptedException {
+    public void save(Reader body, HttpServletResponse response) throws IOException {
         final var post = new Gson().fromJson(body, Post.class);
         ArrayList<Post> data = new ArrayList<>();
         data.add(service.save(post));

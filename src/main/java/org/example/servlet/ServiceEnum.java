@@ -1,5 +1,4 @@
 package org.example.servlet;
-
 import java.util.HashMap;
 
 public enum ServiceEnum {

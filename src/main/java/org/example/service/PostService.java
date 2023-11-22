@@ -1,11 +1,11 @@
 package org.example.service;
 
+
 import org.example.exception.NotFoundException;
 import org.example.model.Post;
 import org.example.repository.PostRepository;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class PostService {
     private final PostRepository repository;
@@ -22,7 +22,7 @@ public class PostService {
         return repository.getById(id).orElseThrow(NotFoundException::new);
     }
 
-    public Post save(Post post) throws ExecutionException, InterruptedException {
+    public Post save(Post post) {
         return repository.save(post);
     }
 

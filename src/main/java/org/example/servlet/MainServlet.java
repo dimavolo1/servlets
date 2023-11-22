@@ -1,15 +1,12 @@
 package org.example.servlet;
 
+import org.example.config.JavaConfig;
 import org.example.controller.PostController;
-import org.example.model.Post;
-import org.example.repository.PostRepository;
-import org.example.service.PostService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.*;
@@ -22,34 +19,21 @@ public class MainServlet extends HttpServlet {
     public static Map<MethEnum, HashMap<String, ServiceEnum>> standRequest = new HashMap<>();
     public static ExecutorService threadPool;
 
-    public static void main(final String[] args) {
-
-    }
-
     @Override
     public void init() {
-        final var repository = new PostRepository();
-        final var service = new PostService(repository);
-        controller = new PostController(service);
+
+        final var context = new AnnotationConfigApplicationContext(JavaConfig.class);
+        controller = context.getBean("postController", PostController.class);
 
         standRequest.put(GET, ServiceEnum.getServEnum(GET));
         standRequest.put(POST, ServiceEnum.getServEnum(POST));
         standRequest.put(DELETE, ServiceEnum.getServEnum(DELETE));
 
         threadPool = Executors.newFixedThreadPool(6);
-        // for test -------------------------------------------------------
-        try {
-            service.save(new Post("Первый пост"));
-            service.save(new Post("Второй пост"));
-            service.save(new Post("Третий пост"));
-        } catch (ExecutionException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        //-----------------------------------------------------------------
     }
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) {
 
         Runnable methThread = () -> {
             try {
@@ -85,8 +69,9 @@ public class MainServlet extends HttpServlet {
             }
         };
 
+
         Future<?> task = threadPool.submit(methThread);
-        while (!task.isDone()) continue;
+        while (!task.isDone()) {  }
     }
 
 }

@@ -4,12 +4,7 @@ import org.example.exception.NotFoundException;
 import org.example.model.Post;
 
 import java.util.*;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-
-import static org.example.servlet.MainServlet.threadPool;
 
 // Stub
 public class PostRepository {
@@ -34,7 +29,7 @@ public class PostRepository {
         throw new NotFoundException("Неверный идентификатор поста");
     }
 
-    public Post save(Post post) throws ExecutionException, InterruptedException {
+    public Post save(Post post) {
         if (postMap.containsKey(post.getId())) {
             postMap.put(post.getId(), post);
         } else {
